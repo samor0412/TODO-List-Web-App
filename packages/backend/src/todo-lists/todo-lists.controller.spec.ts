@@ -3,7 +3,7 @@ import { TodoListsController } from './todo-lists.controller';
 import { TodoListsService } from './todo-lists.service';
 import { PrismaService } from '../infras/prisma/prisma.service';
 import { Prisma, TodoList } from '@prisma/client';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
 
 describe('TodoListsController', () => {
   let controller: TodoListsController;
@@ -14,7 +14,7 @@ describe('TodoListsController', () => {
       controllers: [TodoListsController],
       providers: [TodoListsService, PrismaService],
     }).compile();
-
+      
     controller = module.get<TodoListsController>(TodoListsController);
     prismaService = module.get<PrismaService>(PrismaService);
   });
