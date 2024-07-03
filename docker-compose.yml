@@ -1,6 +1,15 @@
 version: '2'
 
 services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./packages/backend/Dockerfile
+    ports:
+     - 3000:3000
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/todo-list-web-app?schema=public
+      - PORT=3000
   postgres:
     image: postgres
     ports:
