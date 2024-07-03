@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { PrismaService } from '../infras/prisma/prisma.service';
-import { TodoList } from './entities/todo-list.entity';
-import { Todo } from 'src/todos/entities/todo.entity';
 import { transformTodoList } from './todo-lists.helper';
 import { Prisma } from '@prisma/client';
 
