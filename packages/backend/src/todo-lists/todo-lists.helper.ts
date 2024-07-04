@@ -1,8 +1,8 @@
-import { TodoList as PrismaTodoList} from "@prisma/client";
+import { TodoList as PrismaTodoList, Todo as PrismaTodo } from "@prisma/client";
 import { TodoList } from "./entities/todo-list.entity";
-import { Todo } from "../todos/entities/todo.entity";
+import { Todo, TodoStatus } from "../todos/entities/todo.entity";
 
-export function transformTodoList(prismaTodoList?: PrismaTodoList): TodoList {
+export function transformTodoList(prismaTodoList?: PrismaTodoList & {todos: PrismaTodo[]}): TodoList {
     if (!prismaTodoList) {
       return null;
     }
@@ -12,13 +12,13 @@ export function transformTodoList(prismaTodoList?: PrismaTodoList): TodoList {
     todoList.name = prismaTodoList.name;
 
     const todos: Todo[] =
-      todoList.todos?.map((todo) => {
+      prismaTodoList.todos?.map((todo) => {
         const t = new Todo();
         t.id = todo.id;
         t.name = todo.name;
         t.description = todo.description;
         t.dueDate = todo.dueDate;
-        t.status = todo.status;
+        t.status = todo.status.toString() as TodoStatus;
         t.listId = todo.listId;
         return t;
       }) || [];
