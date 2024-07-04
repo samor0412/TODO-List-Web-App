@@ -1,9 +1,5 @@
-import React from "react"
+import React from 'react'
 
 export const TodoListPage: React.FC = () => {
-    return (
-        <div>
-            Todo List Page
-        </div>
-    )
+  return <div>Todo List Page</div>
 }
