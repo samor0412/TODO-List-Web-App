@@ -1,6 +1,12 @@
 version: '2'
 
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./packages/frontend/Dockerfile
+    ports:
+     - 80:80
   backend:
     build:
       context: .
