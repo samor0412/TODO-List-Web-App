@@ -1,10 +1,14 @@
-export type TodoStatus = 'NotStarted' | 'InProgress' | 'Completed'
+export enum TodoStatus {
+  NotStarted = 'NotStarted',
+  InProgress = 'InProgress',
+  Completed = 'Completed'
+}
 
 export interface Todo {
   id: string
   name: string
   description: string
   dueDate: Date
-  status: 'NotStarted' | 'InProgress' | 'Completed'
+  status: TodoStatus.NotStarted | TodoStatus.InProgress | TodoStatus.Completed
   listId: string
 }
