@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { PrismaService } from '../infras/prisma/prisma.service';
@@ -7,14 +7,20 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TodoListsService {
+  private readonly logger = new Logger(TodoListsService.name);
+
   constructor(private prisma: PrismaService) {}
 
   async create(createTodoListDto: CreateTodoListDto) {
+    this.logger.log('create');
+
     const result = await this.prisma.todoList.create({
       data: createTodoListDto,
       include: { todos: true },
     });
-    return transformTodoList(result);
+    const data = transformTodoList(result);
+    this.logger.log(`create successfully, id: ${data.id}`);
+    return data
   }
 
   async findOne(id: string) {
@@ -22,11 +28,12 @@ export class TodoListsService {
       where: { id, isDeleted: false },
       include: { todos: true },
     });
-
     return transformTodoList(result);
   }
 
   async update(id: string, { name }: UpdateTodoListDto) {
+    this.logger.log(`update ${id}`);
+
     let result: any;
     try {
       result = await this.prisma.todoList.update({
@@ -36,6 +43,9 @@ export class TodoListsService {
         },
         include: { todos: true },
       });
+      const data = transformTodoList(result);
+      this.logger.log(`update ${id} successfully`);
+      return data;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') {
@@ -44,16 +54,16 @@ export class TodoListsService {
       }
       throw e;
     }
-
-    return transformTodoList(result);
   }
 
   async remove(id: string) {
+    this.logger.log(`delete ${id}`);
     await this.prisma.todoList.update({
       where: { id },
       data: {
         isDeleted: true,
       },
     });
+    this.logger.log(`delete ${id} successfully`);
   }
 }

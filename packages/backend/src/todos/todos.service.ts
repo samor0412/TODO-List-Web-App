@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { PrismaService } from '../infras/prisma/prisma.service';
 import * as dayjs from 'dayjs';
@@ -7,9 +7,12 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 
 @Injectable()
 export class TodosService {
+  private readonly logger = new Logger(TodosService.name);
+
   constructor(private prisma: PrismaService) {}
 
   async create(createTodoDto: CreateTodoDto) {
+    this.logger.log('create');
     try {
       const result = await this.prisma.todo.create({
         data: {
@@ -17,6 +20,7 @@ export class TodosService {
           dueDate: dayjs(createTodoDto.dueDate).toDate(),
         },
       });
+      this.logger.log(`create successfully, id: ${result.id}`);
       return result;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -27,20 +31,24 @@ export class TodosService {
           );
         }
       }
+      this.logger.error(`create error: ${e}`);
       throw e;
     }
   }
 
   async update(id: string, updateDto: UpdateTodoDto) {
+    this.logger.log(`update ${id}`);
+
     let result: any;
     try {
       result = await this.prisma.todo.update({
         where: { id },
         data: { ...updateDto, dueDate: new Date(updateDto.dueDate) },
       });
+      this.logger.log(`update ${id} successfully`);
+      return result;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        console.log(e);
         switch (e.code) {
           case 'P2003':
             throw new HttpException(
@@ -51,9 +59,8 @@ export class TodosService {
             throw new HttpException('Todo not found', HttpStatus.NOT_FOUND);
         }
       }
+      this.logger.error(`update error: ${e}`);
       throw e;
     }
-
-    return result;
   }
 }
