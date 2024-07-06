@@ -20,7 +20,9 @@ export class TodoListsController {
   constructor(private readonly todoListsService: TodoListsService) {}
 
   @Post()
-  async create(@Body() createTodoListDto: CreateTodoListDto): Promise<TodoList> {
+  async create(
+    @Body() createTodoListDto: CreateTodoListDto,
+  ): Promise<TodoList> {
     return this.todoListsService.create(createTodoListDto);
   }
 
@@ -34,7 +36,10 @@ export class TodoListsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateTodoListDto: UpdateTodoListDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateTodoListDto: UpdateTodoListDto,
+  ) {
     const result = await this.todoListsService.update(id, updateTodoListDto);
     if (!result) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);

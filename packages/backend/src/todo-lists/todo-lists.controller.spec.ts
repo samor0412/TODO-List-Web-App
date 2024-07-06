@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TodoListsController } from './todo-lists.controller';
 import { TodoListsService } from './todo-lists.service';
 import { PrismaService } from '../infras/prisma/prisma.service';
-import { Prisma, TodoList } from '@prisma/client';
-import { HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { HttpException } from '@nestjs/common';
 
 describe('TodoListsController', () => {
   let controller: TodoListsController;
@@ -14,7 +14,7 @@ describe('TodoListsController', () => {
       controllers: [TodoListsController],
       providers: [TodoListsService, PrismaService],
     }).compile();
-      
+
     controller = module.get<TodoListsController>(TodoListsController);
     prismaService = module.get<PrismaService>(PrismaService);
   });
@@ -57,11 +57,11 @@ describe('TodoListsController', () => {
       expect(result).toEqual(mockResponse);
     });
     it('should throw not found when todo list not found', async () => {
-      jest
-        .spyOn(prismaService.todoList, 'findUnique')
-        .mockResolvedValue(null);
+      jest.spyOn(prismaService.todoList, 'findUnique').mockResolvedValue(null);
 
-      expect(() => controller.findOne('test-id')).rejects.toThrow(HttpException);
+      expect(() => controller.findOne('test-id')).rejects.toThrow(
+        HttpException,
+      );
     });
   });
 
@@ -89,11 +89,16 @@ describe('TodoListsController', () => {
         id: 'test-id',
         name: 'test-name',
       };
-      jest
-        .spyOn(prismaService.todoList, 'findUnique')
-        .mockRejectedValue(new Prisma.PrismaClientKnownRequestError('', { code : 'P2025', clientVersion: '3.0.0' }));
+      jest.spyOn(prismaService.todoList, 'findUnique').mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError('', {
+          code: 'P2025',
+          clientVersion: '3.0.0',
+        }),
+      );
 
-      expect(() => controller.update('test-id', mockDto)).rejects.toThrow(HttpException);
+      expect(() => controller.update('test-id', mockDto)).rejects.toThrow(
+        HttpException,
+      );
     });
   });
 

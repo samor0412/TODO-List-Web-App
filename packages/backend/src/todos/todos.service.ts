@@ -5,12 +5,15 @@ import * as dayjs from 'dayjs';
 
 @Injectable()
 export class TodosService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(createTodoDto: CreateTodoDto) {
     const result = await this.prisma.todo.create({
-      data: { ...createTodoDto, dueDate: dayjs(createTodoDto.dueDate).toDate() },
+      data: {
+        ...createTodoDto,
+        dueDate: dayjs(createTodoDto.dueDate).toDate(),
+      },
     });
-    return result
+    return result;
   }
 }

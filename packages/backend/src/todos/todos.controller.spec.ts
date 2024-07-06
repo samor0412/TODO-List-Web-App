@@ -17,9 +17,7 @@ describe('TodosController', () => {
 
     controller = module.get<TodosController>(TodosController);
     prismaService = module.get<PrismaService>(PrismaService);
-
   });
-
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
@@ -28,19 +26,19 @@ describe('TodosController', () => {
   describe('create', () => {
     it('should create a todo list', async () => {
       const mockDto = {
-        "name": "This is good",
-        "description": "this is a des",
-        "dueDate": "2020-07-10 15:00:00.000",
-        "status": TodoStatus.Completed,
-        "listId": "cly7me96z000211v5mds1idcm"
+        name: 'This is good',
+        description: 'this is a des',
+        dueDate: '2020-07-10 15:00:00.000',
+        status: TodoStatus.Completed,
+        listId: 'cly7me96z000211v5mds1idcm',
       };
       const mockResponse = {
-        "id": 'test-id',
-        "name": "This is good",
-        "description": "this is a des",
-        "dueDate": dayjs("2020-07-10 15:00:00.000").toDate(),
-        "status": TodoStatus.Completed,
-        "listId": "cly7me96z000211v5mds1idcm"
+        id: 'test-id',
+        name: 'This is good',
+        description: 'this is a des',
+        dueDate: dayjs('2020-07-10 15:00:00.000').toDate(),
+        status: TodoStatus.Completed,
+        listId: 'cly7me96z000211v5mds1idcm',
       };
       jest
         .spyOn(prismaService.todo, 'create')

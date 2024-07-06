@@ -1,22 +1,22 @@
-import { IsDateString, IsEnum, IsNotEmpty, IsString } from "class-validator";
-import { TodoStatus } from "../entities/todo.entity";
+import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { TodoStatus } from '../entities/todo.entity';
 
 export class CreateTodoDto {
-    @IsString()
-    @IsNotEmpty()
-    name: string;
-    
-    @IsString()
-    @IsNotEmpty()
-    description: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsDateString()
-    dueDate: string;
+  @IsString()
+  @IsNotEmpty()
+  description: string;
 
-    @IsEnum(TodoStatus)
-    status: TodoStatus;
+  @IsDateString()
+  dueDate: string;
 
-    @IsString()
-    @IsNotEmpty()
-    listId: string;
+  @IsEnum(TodoStatus)
+  status: TodoStatus;
+
+  @IsString()
+  @IsNotEmpty()
+  listId: string;
 }

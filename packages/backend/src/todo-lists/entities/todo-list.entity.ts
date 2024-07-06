@@ -1,4 +1,4 @@
-import { Todo } from "../../todos/entities/todo.entity";
+import { Todo } from '../../todos/entities/todo.entity';
 
 export class TodoList {
   id: string;

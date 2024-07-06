@@ -27,7 +27,7 @@ export class TodoListsService {
   }
 
   async update(id: string, { name }: UpdateTodoListDto) {
-    let result : any;
+    let result: any;
     try {
       result = await this.prisma.todoList.update({
         where: { id, isDeleted: false },
@@ -35,7 +35,7 @@ export class TodoListsService {
           name,
         },
         include: { todos: true },
-      })
+      });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') {
@@ -53,7 +53,7 @@ export class TodoListsService {
       where: { id },
       data: {
         isDeleted: true,
-      }
+      },
     });
   }
 }
