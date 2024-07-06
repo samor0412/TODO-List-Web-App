@@ -3,7 +3,7 @@ import { TodoListsController } from './todo-lists.controller';
 import { TodoListsService } from './todo-lists.service';
 import { PrismaService } from '../infras/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
-import { HttpException } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('TodoListsController', () => {
   let controller: TodoListsController;
@@ -97,7 +97,7 @@ describe('TodoListsController', () => {
       );
 
       expect(() => controller.update('test-id', mockDto)).rejects.toThrow(
-        HttpException,
+        new HttpException('Not found', HttpStatus.NOT_FOUND),
       );
     });
   });
