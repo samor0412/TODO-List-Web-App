@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
 import { Todo } from 'domains/entities/todo.entities'
 import React, { useState } from 'react'
-import Popup from 'reactjs-popup'
 import { TodoPopupContent } from './TodoPopupContent'
 import useTodo from 'hooks/useTodo'
+import { Popup } from 'components/Popup'
 
 interface Props {
   todos: Todo[]
@@ -38,24 +38,26 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
           ))}
         </tbody>
       </table>
-      <Popup open={!!todo} onClose={() => setTodo(undefined)}>
-        <TodoPopupContent
-          title="Todo Detail"
-          todo={todo}
-          onSubmit={async (formTodo) => {
-            if (todo) {
-              await update({ id: todo.id, listId: todo.listId, ...formTodo })
-            }
-            setTodo(undefined)
-          }}
-          onDelete={async (id) => {
-            await remove(id)
-            setTodo(undefined)
-          }}
-          close={() => setTodo(undefined)}
-          submitText="Update"
-        />
-      </Popup>
+      {todo && (
+        <Popup>
+          <TodoPopupContent
+            title="Todo Detail"
+            todo={todo}
+            onSubmit={async (formTodo) => {
+              if (todo) {
+                await update({ id: todo.id, listId: todo.listId, ...formTodo })
+              }
+              setTodo(undefined)
+            }}
+            onDelete={async (id) => {
+              await remove(id)
+              setTodo(undefined)
+            }}
+            close={() => setTodo(undefined)}
+            submitText="Update"
+          />
+        </Popup>
+      )}
     </div>
   )
 }
