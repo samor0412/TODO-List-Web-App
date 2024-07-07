@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint:
+    name: "[${{ matrix.apps }}] Lint"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        apps: ["frontend", "backend"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci -w ${{ matrix.apps }}
+
+      - name: Lint ${{ matrix.apps }}
+        run: npm run -w ${{ matrix.apps }} lint
+
+  test:
+    name: "[${{ matrix.apps }}] Test"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        apps: ["frontend", "backend"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci -w ${{ matrix.apps }}
+
+      - name: Generate Prisma Client
+        if: matrix.apps == 'backend'
+        run: |
+          npm run generate:prisma -w ${{ matrix.apps }}
+
+      - name: Test ${{ matrix.apps }}
+        run: npm run -w ${{ matrix.apps }} test

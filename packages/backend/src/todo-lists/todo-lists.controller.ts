@@ -43,6 +43,7 @@ export class TodoListsController {
     @Body() updateTodoListDto: UpdateTodoListDto,
   ) {
     const result = await this.todoListsService.update(id, updateTodoListDto);
+
     if (!result) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }

@@ -107,7 +107,7 @@ describe('TodoListPage', () => {
         const form = screen.getByRole('form')
         userEvent.type(within(form).getByRole('textbox'), 'testName')
 
-        // disable NotStarted
+        // default no status in mock, checked NotStarted now
         userEvent.click(
           screen.getByRole('checkbox', {
             name: /not started/i
@@ -119,7 +119,7 @@ describe('TodoListPage', () => {
           expect(mockSetQueryOptions).toHaveBeenCalledWith({
             filter: {
               name: '',
-              statuses: ['Completed', 'InProgress']
+              statuses: ['NotStarted']
             },
             orderBy: 'asc',
             sortBy: 'dueDate'

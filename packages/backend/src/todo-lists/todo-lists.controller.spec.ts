@@ -120,7 +120,7 @@ describe('TodoListsController', () => {
         id: 'test-id',
         name: 'test-name',
       };
-      jest.spyOn(prismaService.todoList, 'findUnique').mockRejectedValue(
+      jest.spyOn(prismaService.todoList, 'update').mockRejectedValue(
         new Prisma.PrismaClientKnownRequestError('', {
           code: 'P2025',
           clientVersion: '3.0.0',
