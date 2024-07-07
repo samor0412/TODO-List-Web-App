@@ -2,9 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { TodoListsModule } from './todo-lists/todo-lists.module';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { TodosModule } from './todos/todos.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TodoListsModule, TodosModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: `${process.cwd()}/.env.${process.env.NODE_ENV}`,
+    }),
+    TodoListsModule,
+    TodosModule,
+  ],
 })
 export class AppModule {}
 
