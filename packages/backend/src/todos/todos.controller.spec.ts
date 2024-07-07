@@ -42,9 +42,11 @@ describe('TodosController', () => {
         status: TodoStatus.Completed,
         listId: 'cly7me96z000211v5mds1idcm',
       };
-      jest
-        .spyOn(prismaService.todo, 'create')
-        .mockResolvedValue({ ...mockResponse, id: 'test-id' });
+      jest.spyOn(prismaService.todo, 'create').mockResolvedValue({
+        ...mockResponse,
+        id: 'test-id',
+        isDeleted: false,
+      });
 
       const result = await controller.create(mockDto);
       expect(result).toEqual(mockResponse);
@@ -58,20 +60,15 @@ describe('TodosController', () => {
         status: TodoStatus.Completed,
         listId: 'cly7me96z000211v5mds1idcm',
       };
-      jest
-        .spyOn(prismaService.todo, 'create')
-        .mockRejectedValue(
-          new Prisma.PrismaClientKnownRequestError('', {
-            code: 'P2003',
-            clientVersion: '3.0.0',
-          }),
-        );
+      jest.spyOn(prismaService.todo, 'create').mockRejectedValue(
+        new Prisma.PrismaClientKnownRequestError('', {
+          code: 'P2003',
+          clientVersion: '3.0.0',
+        }),
+      );
 
       expect(() => controller.create(mockDto)).rejects.toThrow(
-        new HttpException(
-            'Todo list does not exist',
-            HttpStatus.CONFLICT,
-        ),
+        new HttpException('Todo list does not exist', HttpStatus.CONFLICT),
       );
     });
   });
@@ -94,9 +91,11 @@ describe('TodosController', () => {
         status: TodoStatus.Completed,
         listId: 'cly7me96z000211v5mds1idcm',
       };
-      jest
-        .spyOn(prismaService.todo, 'update')
-        .mockResolvedValue({ ...mockResponse, id: 'test-id' });
+      jest.spyOn(prismaService.todo, 'update').mockResolvedValue({
+        ...mockResponse,
+        id: 'test-id',
+        isDeleted: false,
+      });
 
       const result = await controller.update('test-id', mockDto);
       expect(result).toEqual(mockResponse);
@@ -135,11 +134,10 @@ describe('TodosController', () => {
           clientVersion: '3.0.0',
         }),
       );
-      await expect(() =>
-        controller.update('test-id', mockDto),
-      ).rejects.toThrow(
+      await expect(() => controller.update('test-id', mockDto)).rejects.toThrow(
         new HttpException('Todo not found', HttpStatus.NOT_FOUND),
       );
     });
   });
+
 });
