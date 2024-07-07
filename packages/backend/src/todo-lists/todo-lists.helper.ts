@@ -14,16 +14,18 @@ export function transformTodoList(
   todoList.name = prismaTodoList.name;
 
   const todos: Todo[] =
-    prismaTodoList.todos?.map((todo) => {
-      const t = new Todo();
-      t.id = todo.id;
-      t.name = todo.name;
-      t.description = todo.description;
-      t.dueDate = todo.dueDate;
-      t.status = todo.status.toString() as TodoStatus;
-      t.listId = todo.listId;
-      return t;
-    }) || [];
+    prismaTodoList.todos
+      ?.filter((todo) => !todo.isDeleted)
+      .map((todo) => {
+        const t = new Todo();
+        t.id = todo.id;
+        t.name = todo.name;
+        t.description = todo.description;
+        t.dueDate = todo.dueDate;
+        t.status = todo.status.toString() as TodoStatus;
+        t.listId = todo.listId;
+        return t;
+      }) || [];
   todoList.todos = todos;
 
   return todoList;

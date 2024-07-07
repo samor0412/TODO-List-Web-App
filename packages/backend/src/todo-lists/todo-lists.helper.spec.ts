@@ -16,6 +16,50 @@ describe('transformTodoList', () => {
           dueDate: new Date(),
           status: TodoStatus.Completed,
           listId: 'test-list-id',
+          isDeleted: false
+        },
+      ],
+      isDeleted: false,
+    };
+    const mockTodoList: TodoList = {
+      id: 'test-list-id',
+      name: 'test-name',
+      todos: [
+        {
+          id: 'test-todo-id',
+          name: 'test-todo',
+          description: 'test-description',
+          dueDate: new Date(),
+          status: TodoStatus.Completed,
+          listId: 'test-list-id',
+        },
+      ],
+    };
+    const result = transformTodoList(mockPrismaTodoList);
+    expect(result).toEqual(mockTodoList);
+  });
+  it('should filter deleted todos', () => {
+    const mockPrismaTodoList: PrismaTodoList & { todos: PrismaTodo[] } = {
+      id: 'test-list-id',
+      name: 'test-name',
+      todos: [
+        {
+          id: 'deleted-test-todo-id',
+          name: 'test-todo',
+          description: 'test-description',
+          dueDate: new Date(),
+          status: TodoStatus.Completed,
+          listId: 'test-list-id',
+          isDeleted: true
+        },
+        {
+          id: 'test-todo-id',
+          name: 'test-todo',
+          description: 'test-description',
+          dueDate: new Date(),
+          status: TodoStatus.Completed,
+          listId: 'test-list-id',
+          isDeleted: false
         },
       ],
       isDeleted: false,
