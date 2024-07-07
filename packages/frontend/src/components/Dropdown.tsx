@@ -17,12 +17,19 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
         setOpen(!open)
       }}
     >
-      <summary className="btn m-1 w-full">{options[value]}</summary>
+      <summary className="btn m-1 w-full flex items-center justify-between">
+        {options[value]}
+        <ArrowDown
+          className="fill-neutral-content"
+          width="20px"
+          height="20px"
+        />
+      </summary>
       {open && (
         <ul className="menu dropdown-content dropdown-hover absolute z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow">
           {Object.entries(options).map(([value, display]) => (
             <li
-              className="py-2 pl-2"
+              className="py-2 pl-2 cursor-pointer"
               key={value}
               onClick={() => {
                 onClick(value)
@@ -34,11 +41,6 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
           ))}
         </ul>
       )}
-      <ArrowDown
-        className="absolute right-4 top-1/2 -translate-y-1/2 fill-neutral-content"
-        width="20px"
-        height="20px"
-      />
     </div>
   )
 }
