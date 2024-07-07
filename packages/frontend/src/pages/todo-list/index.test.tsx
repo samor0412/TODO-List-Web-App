@@ -42,7 +42,6 @@ vi.mock('../../api/todo-lists', async (importOriginal) => {
 describe('TodoListPage', () => {
   it('should render TodoListPage with data when query is successful', async () => {
     render(reactQueryWrapper({ children: <TodoListPage /> }))
-    waitFor
     await waitFor(() =>
       expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
     )
