@@ -34,4 +34,5 @@ model Todo {
   status      TodoStatus @default(NotStarted)
   list        TodoList   @relation(fields: [listId], references: [id])
   listId      String
+  isDeleted Boolean @default(false)
 }
