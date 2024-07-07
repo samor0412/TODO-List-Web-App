@@ -123,17 +123,19 @@ export const TodoPopupContent: React.FC<Props> = ({
           value={submitText}
         />
       </form>
-      <button
-        className="btn btn-error mt-3 w-full"
-        onClick={async () => {
-          if (todo && onDelete) {
-            await onDelete(todo?.id)
-            closeStatusDropdown()
-          }
-        }}
-      >
-        Delete
-      </button>
+      {onDelete && (
+        <button
+          className="btn btn-error mt-3 w-full"
+          onClick={async () => {
+            if (todo && onDelete) {
+              await onDelete(todo?.id)
+              closeStatusDropdown()
+            }
+          }}
+        >
+          Delete
+        </button>
+      )}
     </div>
   )
 }

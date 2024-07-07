@@ -8,19 +8,14 @@ interface Props {
   onClickCreate: () => void
 }
 
-export const TodoActionBar: React.FC<Props> = ({
-  todoListId,
-  onClickCreate
-}) => {
+export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
   const { create } = useTodo()
 
   return (
     <div className="my-4 flex">
       <Popup
         trigger={
-          <button className="btn btn-primary btn-sm" onClick={onClickCreate}>
-            Create Todo
-          </button>
+          <button className="btn btn-primary btn-sm">Create Todo</button>
         }
         modal
       >

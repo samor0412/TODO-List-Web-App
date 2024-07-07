@@ -1,9 +1,23 @@
+import * as React from 'react'
 import { render, screen, waitFor, within, act } from '@testing-library/react'
 import { TodoListPage } from '.'
 import { reactQueryWrapper } from '../../test/helpers'
 import userEvent from '@testing-library/user-event'
 import * as todoAPI from '../../api/todos'
 
+vi.mock('react', async (importOriginal) => {
+  const mod = (await importOriginal()) as Record<string, unknown>
+  return {
+    ...mod,
+    useContext: vi.fn(() => ({ refetch: vi.fn() }))
+  }
+})
+
+vi.mock('../../components/Header', async () => {
+  return {
+    default: () => <></>
+  }
+})
 vi.mock('react-router-dom', async (importOriginal) => {
   const mod = (await importOriginal()) as Record<string, unknown>
   return {
@@ -102,6 +116,10 @@ describe('TodoListPage', () => {
     })
     it('should send request when clicking update', async () => {
       const spyUpdate = vi.spyOn(todoAPI, 'update')
+      const mockRefetchTodoLists = vi.fn()
+      vi.spyOn(React, 'useContext').mockReturnValue({
+        refetch: mockRefetchTodoLists
+      })
 
       render(reactQueryWrapper({ children: <TodoListPage /> }))
       await waitFor(() =>
@@ -137,20 +155,30 @@ describe('TodoListPage', () => {
           status: 'Completed'
         })
       )
+      expect(mockRefetchTodoLists).toHaveBeenCalled()
     })
     it('should send delete request when clicking delete', async () => {
-      const spyDelete = vi.spyOn(todoAPI, 'remove')
+      const mockRefetchTodoLists = vi.fn()
+      vi.spyOn(React, 'useContext').mockReturnValue({
+        refetch: mockRefetchTodoLists
+      })
+      const spyDelete = vi.spyOn(todoAPI, 'remove').mockResolvedValue()
 
       render(reactQueryWrapper({ children: <TodoListPage /> }))
       await waitFor(() =>
         expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
       )
-      act(() => {
-        screen.getByRole('button', { name: 'Detail' }).click()
-      })
-      screen.getByRole('button', { name: 'Delete' }).click()
 
+      screen.getByRole('button', { name: 'Detail' }).click()
+
+      await waitFor(() =>
+        expect(
+          screen.getByRole('button', { name: 'Delete' })
+        ).toBeInTheDocument()
+      )
+      screen.getByRole('button', { name: 'Delete' }).click()
       await waitFor(() => expect(spyDelete).toHaveBeenCalledWith('id1'))
+      expect(mockRefetchTodoLists).toHaveBeenCalled()
     })
   })
 })

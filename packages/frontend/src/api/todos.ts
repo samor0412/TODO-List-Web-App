@@ -15,6 +15,5 @@ export const update = async (updateDto: Todo) => {
 }
 
 export const remove = async (id: string) => {
-  const result = await axiosInstance.delete<Todo>(`/todos/${id}`)
-  return result.data
+  await axiosInstance.delete<Todo>(`/todos/${id}`)
 }

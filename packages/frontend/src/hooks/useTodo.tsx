@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import * as todosAPI from 'api/todos'
+import TodoListContext from 'context/TodoList'
 import { Todo } from 'domains/entities/todo.entities'
+import { useContext } from 'react'
 
 interface Return {
   create: (data: Omit<Todo, 'id'>) => Promise<void>
@@ -9,21 +11,32 @@ interface Return {
 }
 
 const useTodo = (): Return => {
+  const { refetch: refetchTodoList } = useContext(TodoListContext)
   const { mutateAsync: create } = useMutation({
     mutationFn: async (data: Omit<Todo, 'id'>) => {
       await todosAPI.create(data)
+      if (refetchTodoList) {
+        await refetchTodoList()
+      }
     }
   })
 
   const { mutateAsync: update } = useMutation({
     mutationFn: async (data: Todo) => {
-      return todosAPI.update(data)
+      const result = await todosAPI.update(data)
+      if (refetchTodoList) {
+        await refetchTodoList()
+      }
+      return result
     }
   })
 
   const { mutateAsync: remove } = useMutation({
     mutationFn: async (id: string) => {
       await todosAPI.remove(id)
+      if (refetchTodoList) {
+        await refetchTodoList()
+      }
     }
   })
 
