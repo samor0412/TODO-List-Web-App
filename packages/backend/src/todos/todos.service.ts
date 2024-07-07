@@ -21,7 +21,8 @@ export class TodosService {
         },
       });
       this.logger.log(`create successfully, id: ${result.id}`);
-      return result;
+      const { isDeleted: _, ...newTodo } = result;
+      return newTodo;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2003') {
@@ -46,7 +47,8 @@ export class TodosService {
         data: { ...updateDto, dueDate: new Date(updateDto.dueDate) },
       });
       this.logger.log(`update ${id} successfully`);
-      return result;
+      const { isDeleted: _, ...newTodo } = result;
+      return newTodo;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         switch (e.code) {
@@ -62,5 +64,16 @@ export class TodosService {
       this.logger.error(`update error: ${e}`);
       throw e;
     }
+  }
+
+  async remove(id: string) {
+    this.logger.log(`delete ${id}`);
+    await this.prisma.todo.update({
+      where: { id },
+      data: {
+        isDeleted: true,
+      },
+    });
+    this.logger.log(`delete ${id} successfully`);
   }
 }
