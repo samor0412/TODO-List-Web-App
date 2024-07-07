@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { Dropdown } from './Dropdown'
 import userEvent from '@testing-library/user-event'
 
-describe.skip('Dropdown', () => {
+describe('Dropdown', () => {
   it('should render', () => {
     render(
       <Dropdown
