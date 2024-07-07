@@ -29,7 +29,7 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
               <th>{todo.name}</th>
               <th>{dayjs(todo.dueDate).format('YYYY-MM-DD')}</th>
               <th>{todo.status}</th>
-              <th className='flex justify-end'>
+              <th className="flex justify-end">
                 <button className="btn" onClick={() => setTodo(todo)}>
                   Detail
                 </button>
@@ -39,7 +39,7 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
         </tbody>
       </table>
       {todo && (
-        <Popup>
+        <Popup onClose={() => setTodo(undefined)}>
           <TodoPopupContent
             title="Todo Detail"
             todo={todo}

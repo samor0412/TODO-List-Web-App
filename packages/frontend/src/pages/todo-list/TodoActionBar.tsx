@@ -64,7 +64,7 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
         />
       </div>
       {isCreatePopupOpen && (
-        <Popup>
+        <Popup onClose={() => setIsCreatePopupOpen(false)}>
           <TodoPopupContent
             title="Create Todo"
             onSubmit={async (data) => {
@@ -77,7 +77,7 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
         </Popup>
       )}
       {isFilterPopupOpen && (
-        <Popup>
+        <Popup onClose={() => setIsFilterPopupOpen(false)}>
           <TodoFilterPopupContent
             title="Filter"
             queryOptions={queryOptions}
