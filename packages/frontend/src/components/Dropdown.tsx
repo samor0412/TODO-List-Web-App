@@ -2,11 +2,12 @@ import { useState } from 'react'
 import ArrowDown from 'assets/arrow-down.svg?react'
 
 interface Props {
+  icon?: React.ReactNode
   value: string
   onClick: (value: string) => void
   options: Record<string, string>
 }
-export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
+export const Dropdown: React.FC<Props> = ({ icon, value, options, onClick }) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -18,6 +19,7 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
       }}
     >
       <summary className="btn m-1 w-full flex items-center justify-between">
+        {icon}
         {options[value]}
         <ArrowDown
           className="fill-neutral-content"

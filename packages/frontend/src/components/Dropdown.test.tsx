@@ -35,4 +35,19 @@ describe('Dropdown', () => {
     userEvent.click(screen.getByText('In Progress'))
     await waitFor(() => expect(onClick).toHaveBeenCalledWith('InProgress'))
   })
+
+  it('should show icon when icon is provided', () => {
+    render(
+      <Dropdown
+        icon={<div>Icon</div>}
+        value="NotStarted"
+        options={{
+          NotStarted: 'Not Started',
+          InProgress: 'In Progress'
+        }}
+        onClick={vi.fn()}
+      />
+    )
+    expect(screen.getByText('Icon')).toBeInTheDocument()
+  })
 })
