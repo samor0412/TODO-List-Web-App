@@ -6,6 +6,7 @@ import DatePicker from 'react-date-picker'
 import { todoSchema } from 'validation/schemas'
 import classnames from 'classnames'
 import { TODO_STATUS_DISPLAY_MAP } from '../../constants'
+import { Dropdown } from 'components/Dropdown'
 
 interface Props {
   title: string
@@ -45,15 +46,8 @@ export const TodoPopupContent: React.FC<Props> = ({
     resolver: yupResolver(todoSchema)
   })
 
-  const closeStatusDropdown = useCallback(() => {
-    document.getElementById('status-dropdown')?.removeAttribute('open')
-  }, [])
-
   return (
-    <div
-      className="bg-primary-content bg-origin-content p-6"
-      onClick={closeStatusDropdown}
-    >
+    <div className="bg-primary-content bg-origin-content p-6">
       <h1 className="mb-6">{title}</h1>
       <form
         className={classnames([
@@ -93,25 +87,11 @@ export const TodoPopupContent: React.FC<Props> = ({
             control={control}
             render={({ field }) => (
               <>
-                <details className="dropdown">
-                  <summary className="btn m-1 w-full">{field.value}</summary>
-                  <ul className="menu dropdown-content dropdown-hover z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow">
-                    {Object.entries(TODO_STATUS_DISPLAY_MAP).map(
-                      ([value, display]) => (
-                        <li
-                          className="py-2 pl-2"
-                          key={value}
-                          onClick={() => {
-                            field.onChange(value)
-                            closeStatusDropdown()
-                          }}
-                        >
-                          {display}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </details>
+                <Dropdown
+                  options={TODO_STATUS_DISPLAY_MAP}
+                  value={field.value}
+                  onClick={field.onChange}
+                />
                 <p>{errors.status?.message}</p>
               </>
             )}
@@ -129,7 +109,6 @@ export const TodoPopupContent: React.FC<Props> = ({
           onClick={async () => {
             if (todo && onDelete) {
               await onDelete(todo?.id)
-              closeStatusDropdown()
             }
           }}
         >
