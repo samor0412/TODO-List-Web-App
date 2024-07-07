@@ -5,7 +5,7 @@ import {
 } from '@prisma/client';
 import { TodoList } from './entities/todo-list.entity';
 import { Todo, TodoStatus } from '../todos/entities/todo.entity';
-import { QueryOptions } from 'src/constants/query';
+import { QueryOptions } from '../constants/query';
 
 const TodoStatusPrismaMap = {
   [TodoStatus.NotStarted]: PrismaTodoStatus.NotStarted,

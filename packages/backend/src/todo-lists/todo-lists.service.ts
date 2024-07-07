@@ -7,7 +7,7 @@ import {
   transformTodoList,
 } from './todo-lists.helper';
 import { Prisma } from '@prisma/client';
-import { QueryOptions } from 'src/constants/query';
+import { QueryOptions } from '../constants/query';
 
 @Injectable()
 export class TodoListsService {
