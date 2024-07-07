@@ -82,7 +82,7 @@ describe('TodoListPage', () => {
       ).toBeInTheDocument()
     })
   })
-  describe.skip('update', () => {
+  describe('update', () => {
     it('should show update todo popup when clicking create', async () => {
       render(reactQueryWrapper({ children: <TodoListPage /> }))
       await waitFor(() =>
