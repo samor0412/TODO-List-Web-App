@@ -8,11 +8,16 @@ import TodoListsContext from 'context/TodoList'
 
 export const TodoListPage: React.FC = () => {
   const { todoListId: id } = useParams<{ todoListId: string }>()
-  const { todoList, isLoading, refetch } = useTodoList({ id: id || '' })
+  const { todoList, isLoading, refetch, queryOptions, setQueryOptions } =
+    useTodoList({
+      id: id || ''
+    })
   const onClickCreate = () => {}
 
   return (
-    <TodoListsContext.Provider value={{ refetch }}>
+    <TodoListsContext.Provider
+      value={{ refetch, queryOptions, setQueryOptions }}
+    >
       <Header title="Todo List Page" backToHome />
       <div className="flex w-full flex-col items-start px-6 pt-6">
         {isLoading ? (

@@ -7,7 +7,12 @@ interface Props {
   onClick: (value: string) => void
   options: Record<string, string>
 }
-export const Dropdown: React.FC<Props> = ({ icon, value, options, onClick }) => {
+export const Dropdown: React.FC<Props> = ({
+  icon,
+  value,
+  options,
+  onClick
+}) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -18,7 +23,7 @@ export const Dropdown: React.FC<Props> = ({ icon, value, options, onClick }) => 
         setOpen(!open)
       }}
     >
-      <summary className="btn m-1 w-full flex items-center justify-between">
+      <summary className="btn m-1 flex w-full items-center justify-between">
         {icon}
         {options[value]}
         <ArrowDown
@@ -31,7 +36,7 @@ export const Dropdown: React.FC<Props> = ({ icon, value, options, onClick }) => 
         <ul className="menu dropdown-content dropdown-hover absolute z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow">
           {Object.entries(options).map(([value, display]) => (
             <li
-              className="py-2 pl-2 cursor-pointer"
+              className="cursor-pointer py-2 pl-2"
               key={value}
               onClick={() => {
                 onClick(value)
