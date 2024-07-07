@@ -11,7 +11,7 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
 
   return (
     <div
-      className="relative display"
+      className="display relative"
       data-testid="dropdown"
       onClick={() => {
         setOpen(!open)
@@ -19,7 +19,7 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
     >
       <summary className="btn m-1 w-full">{options[value]}</summary>
       {open && (
-        <ul className="absolute menu dropdown-content dropdown-hover z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow">
+        <ul className="menu dropdown-content dropdown-hover absolute z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow">
           {Object.entries(options).map(([value, display]) => (
             <li
               className="py-2 pl-2"
@@ -35,7 +35,7 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
         </ul>
       )}
       <ArrowDown
-        className="fill-neutral-content absolute top-1/2 transform -translate-y-1/2 right-4"
+        className="absolute right-4 top-1/2 -translate-y-1/2 fill-neutral-content"
         width="20px"
         height="20px"
       />

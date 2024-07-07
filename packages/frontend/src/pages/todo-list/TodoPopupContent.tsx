@@ -1,5 +1,5 @@
 import { Todo, TodoStatus } from 'domains/entities/todo.entities'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import DatePicker from 'react-date-picker'

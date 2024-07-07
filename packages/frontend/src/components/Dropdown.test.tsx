@@ -18,7 +18,7 @@ describe('Dropdown', () => {
 
   it('should call onClick with value when clicked', async () => {
     const onClick = vi.fn()
-    const {container} =render(
+    render(
       <Dropdown
         value="NotStarted"
         options={{
@@ -29,7 +29,9 @@ describe('Dropdown', () => {
       />
     )
     userEvent.click(screen.getByTestId('dropdown'))
-    await waitFor(() => expect(screen.getByText('In Progress')).toBeInTheDocument())
+    await waitFor(() =>
+      expect(screen.getByText('In Progress')).toBeInTheDocument()
+    )
     userEvent.click(screen.getByText('In Progress'))
     await waitFor(() => expect(onClick).toHaveBeenCalledWith('InProgress'))
   })
