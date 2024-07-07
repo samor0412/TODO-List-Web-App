@@ -5,6 +5,7 @@ import { Todo } from 'domains/entities/todo.entities'
 interface Return {
   create: (data: Omit<Todo, 'id'>) => Promise<void>
   update: (data: Todo) => Promise<Todo>
+  remove: (id: string) => Promise<void>
 }
 
 const useTodo = (): Return => {
@@ -20,7 +21,13 @@ const useTodo = (): Return => {
     }
   })
 
-  return { create, update }
+  const { mutateAsync: remove } = useMutation({
+    mutationFn: async (id: string) => {
+      await todosAPI.remove(id)
+    }
+  })
+
+  return { create, update, remove }
 }
 
 export default useTodo

@@ -11,7 +11,7 @@ interface Props {
 
 export const ToDoTable: React.FC<Props> = ({ todos }) => {
   const [todo, setTodo] = useState<Todo>()
-  const { update } = useTodo()
+  const { update, remove } = useTodo()
   return (
     <div>
       <table className="table">
@@ -46,6 +46,10 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
             if (todo) {
               await update({ id: todo.id, listId: todo.listId, ...formTodo })
             }
+            setTodo(undefined)
+          }}
+          onDelete={async (id) => {
+            await remove(id)
             setTodo(undefined)
           }}
           close={() => setTodo(undefined)}

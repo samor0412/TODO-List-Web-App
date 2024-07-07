@@ -11,6 +11,7 @@ interface Props {
   title: string
   submitText: string
   onSubmit: (todo: Omit<Todo, 'id' | 'listId'>) => Promise<void>
+  onDelete?: (todo: string) => Promise<void>
   close: () => void
   todo?: Todo
 }
@@ -25,6 +26,7 @@ type Inputs = {
 export const TodoPopupContent: React.FC<Props> = ({
   title,
   onSubmit,
+  onDelete,
   submitText,
   todo
 }) => {
@@ -121,6 +123,17 @@ export const TodoPopupContent: React.FC<Props> = ({
           value={submitText}
         />
       </form>
+      <button
+        className="btn btn-error mt-3 w-full"
+        onClick={async () => {
+          if (todo && onDelete) {
+            await onDelete(todo?.id)
+            closeStatusDropdown()
+          }
+        }}
+      >
+        Delete
+      </button>
     </div>
   )
 }

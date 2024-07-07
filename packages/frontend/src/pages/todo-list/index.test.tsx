@@ -138,5 +138,19 @@ describe('TodoListPage', () => {
         })
       )
     })
+    it('should send delete request when clicking delete', async () => {
+      const spyDelete = vi.spyOn(todoAPI, 'remove')
+
+      render(reactQueryWrapper({ children: <TodoListPage /> }))
+      await waitFor(() =>
+        expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+      )
+      act(() => {
+        screen.getByRole('button', { name: 'Detail' }).click()
+      })
+      screen.getByRole('button', { name: 'Delete' }).click()
+
+      await waitFor(() => expect(spyDelete).toHaveBeenCalledWith('id1'))
+    })
   })
 })
