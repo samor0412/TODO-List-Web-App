@@ -20,14 +20,14 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
   const [isFilterPopupOpen, setIsFilterPopupOpen] = React.useState(false)
 
   return (
-    <div className="my-4 flex items-center justify-between">
+    <div className="my-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center md:gap-0">
       <button
         className="btn btn-primary btn-sm"
         onClick={() => setIsCreatePopupOpen(true)}
       >
         Create Todo
       </button>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button className="btn" onClick={() => setIsFilterPopupOpen(true)}>
           Filter
         </button>

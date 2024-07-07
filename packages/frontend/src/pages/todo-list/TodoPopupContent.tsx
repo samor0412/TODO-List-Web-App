@@ -51,7 +51,7 @@ export const TodoPopupContent: React.FC<Props> = ({
       <h1 className="mb-6">{title}</h1>
       <form
         className={classnames([
-          'flex flex-col gap-4',
+          'flex flex-col gap-2',
           '[&>div]:flex [&>div]:flex-col [&>div]:gap-2',
           '[&_p]:text-sm [&_p]:text-warning'
         ])}
@@ -99,7 +99,7 @@ export const TodoPopupContent: React.FC<Props> = ({
         </div>
         <input
           type="submit"
-          className="btn btn-primary mt-5"
+          className="btn btn-primary mt-2"
           value={submitText}
         />
       </form>

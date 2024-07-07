@@ -23,7 +23,7 @@ export const Dropdown: React.FC<Props> = ({
         setOpen(!open)
       }}
     >
-      <summary className="btn m-1 flex w-full items-center justify-between">
+      <summary className="btn m-1 flex w-full flex-nowrap items-center justify-between">
         {icon}
         {options[value]}
         <ArrowDown

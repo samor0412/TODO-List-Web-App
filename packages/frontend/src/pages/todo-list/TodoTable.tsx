@@ -13,7 +13,7 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
   const [todo, setTodo] = useState<Todo>()
   const { update, remove } = useTodo()
   return (
-    <div>
+    <div className="min-w-[80%] overflow-x-auto">
       <table className="table">
         <thead>
           <tr>

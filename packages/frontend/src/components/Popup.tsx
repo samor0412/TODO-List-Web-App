@@ -7,5 +7,16 @@ interface Props {
 }
 
 export const Popup: React.FC<Props> = ({ children }) => {
-  return <ReactJsPopup open>{children}</ReactJsPopup>
+  return (
+    <ReactJsPopup
+      open
+      contentStyle={{
+        minWidth: 'min(80vw, 500px)',
+        maxHeight: '100vh',
+        overflow: 'auto'
+      }}
+    >
+      {children}
+    </ReactJsPopup>
+  )
 }
