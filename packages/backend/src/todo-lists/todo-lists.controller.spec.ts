@@ -8,7 +8,7 @@ import * as dayjs from 'dayjs';
 import { TodoList } from './entities/todo-list.entity';
 import { Todo, TodoStatus } from '../todos/entities/todo.entity';
 
-describe.only('TodoListsController', () => {
+describe('TodoListsController', () => {
   let controller: TodoListsController;
   let prismaService: PrismaService;
 
@@ -70,24 +70,25 @@ describe.only('TodoListsController', () => {
 
       const result = await controller.findOne('test-id');
 
-      const expectedTodoList = new TodoList()
-      expectedTodoList.id = mockTodoListResponse.id
-      expectedTodoList.name = mockTodoListResponse.name
+      const expectedTodoList = new TodoList();
+      expectedTodoList.id = mockTodoListResponse.id;
+      expectedTodoList.name = mockTodoListResponse.name;
       expectedTodoList.todos = mockTodoResponse.map((todo) => {
-        const result = new Todo()
-        result.id = todo.id
-        result.name = todo.name
-        result.description = todo.description
-        result.dueDate = todo.dueDate
+        const result = new Todo();
+        result.id = todo.id;
+        result.name = todo.name;
+        result.description = todo.description;
+        result.dueDate = todo.dueDate;
         result.status = todo.status;
-        result.listId = todo.listId
+        result.listId = todo.listId;
         return result;
-      })
+      });
       expect(result).toEqual(expectedTodoList);
     });
 
     it('should throw not found when todo list not found', async () => {
       jest.spyOn(prismaService.todoList, 'findUnique').mockResolvedValue(null);
+      jest.spyOn(prismaService.todo, 'findMany').mockResolvedValue(null);
 
       expect(() => controller.findOne('test-id')).rejects.toThrow(
         HttpException,

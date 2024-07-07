@@ -142,15 +142,17 @@ describe('TodosController', () => {
 
   describe('delete', () => {
     it('should delete a todo list', async () => {
-      const spyDelete = jest.spyOn(prismaService.todo, 'update').mockResolvedValue({
-        id: 'test-id',
-        name: 'test-name',
-        description: 'test-description',
-        dueDate: dayjs('2020-07-10 15:00:00.000').toDate(),
-        status: TodoStatus.Completed,
-        listId: 'cly7me96z000211v5mds1idcm',
-        isDeleted: true,
-      });
+      const spyDelete = jest
+        .spyOn(prismaService.todo, 'update')
+        .mockResolvedValue({
+          id: 'test-id',
+          name: 'test-name',
+          description: 'test-description',
+          dueDate: dayjs('2020-07-10 15:00:00.000').toDate(),
+          status: TodoStatus.Completed,
+          listId: 'cly7me96z000211v5mds1idcm',
+          isDeleted: true,
+        });
 
       await controller.remove('test-id');
       expect(spyDelete).toHaveBeenCalledWith({

@@ -2,7 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { PrismaService } from '../infras/prisma/prisma.service';
-import { transformTodoList } from './todo-lists.helper';
+import {
+  prepareGetTodoListPrismaOptions,
+  transformTodoList,
+} from './todo-lists.helper';
 import { Prisma } from '@prisma/client';
 import { QueryOptions } from 'src/constants/query';
 
@@ -21,28 +24,41 @@ export class TodoListsService {
     });
     const data = transformTodoList(result);
     this.logger.log(`create successfully, id: ${data.id}`);
-    return data
+    return data;
   }
 
   async findOne(id: string, options?: QueryOptions) {
     this.logger.log(`findOne with options: ${JSON.stringify(options)}`);
 
-    const isSorting = options?.sortBy && options?.orderBy;
+    const prismaOptions = prepareGetTodoListPrismaOptions(options);
     const [todoList, todos] = await Promise.all([
       this.prisma.todoList.findUnique({
-        where: { id, isDeleted: false },
+        where: {
+          id,
+          isDeleted: false,
+        },
       }),
       this.prisma.todo.findMany({
-        where: { listId: id, isDeleted: false },
-        ...(isSorting && {
-          orderBy: { [options.sortBy]: options.orderBy },
-        }),
+        where: {
+          listId: id,
+          isDeleted: false,
+          ...prismaOptions.where,
+        },
+        orderBy: {
+          ...prismaOptions.orderBy,
+        },
       }),
     ]);
+
+    if (!todoList) {
+      return null;
+    }
+
     const result = {
       ...todoList,
       todos,
     };
+
     return transformTodoList(result);
   }
 

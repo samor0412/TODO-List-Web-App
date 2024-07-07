@@ -1,10 +1,16 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class QueryOptions {
-  @IsString()
-  sortBy: string;
+  @IsObject()
+  @IsOptional()
+  filter?: Record<string, any>;
 
   @IsString()
+  @IsOptional()
+  sortBy?: string;
+
+  @IsString()
+  @IsOptional()
   @IsEnum(['asc', 'desc'])
-  orderBy: 'asc' | 'desc';
+  orderBy?: 'asc' | 'desc';
 }
