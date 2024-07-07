@@ -9,11 +9,13 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { TodoListsService } from './todo-lists.service';
 import { CreateTodoListDto } from './dto/create-todo-list.dto';
 import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { TodoList } from './entities/todo-list.entity';
+import { QueryOptions } from '../constants/query';
 
 @Controller('todo-lists')
 export class TodoListsController {
@@ -27,8 +29,8 @@ export class TodoListsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const result = await this.todoListsService.findOne(id);
+  async findOne(@Param('id') id: string, @Query() options?: QueryOptions) {
+    const result = await this.todoListsService.findOne(id, options);
     if (!result) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }

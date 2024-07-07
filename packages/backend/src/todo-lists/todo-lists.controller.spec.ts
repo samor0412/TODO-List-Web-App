@@ -4,8 +4,11 @@ import { TodoListsService } from './todo-lists.service';
 import { PrismaService } from '../infras/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import * as dayjs from 'dayjs';
+import { TodoList } from './entities/todo-list.entity';
+import { Todo, TodoStatus } from '../todos/entities/todo.entity';
 
-describe('TodoListsController', () => {
+describe.only('TodoListsController', () => {
   let controller: TodoListsController;
   let prismaService: PrismaService;
 
@@ -44,18 +47,45 @@ describe('TodoListsController', () => {
 
   describe('findOne', () => {
     it('should get a todo list', async () => {
-      const mockResponse = {
+      const mockTodoListResponse = {
         id: 'test-id',
         name: 'test-name',
-        todos: [],
       };
+      const mockTodoResponse = [
+        {
+          id: 'test-id',
+          name: 'test-name',
+          description: 'test-description',
+          dueDate: dayjs('2020-07-10 15:00:00.000').toDate(),
+          status: TodoStatus.NotStarted,
+          listId: 'cly7me96z000211v5mds1idcm',
+        },
+      ];
       jest
         .spyOn(prismaService.todoList, 'findUnique')
-        .mockResolvedValue({ ...mockResponse, isDeleted: false });
+        .mockResolvedValue({ ...mockTodoListResponse, isDeleted: false });
+      jest
+        .spyOn(prismaService.todo, 'findMany')
+        .mockResolvedValue([{ ...mockTodoResponse[0], isDeleted: false }]);
 
       const result = await controller.findOne('test-id');
-      expect(result).toEqual(mockResponse);
+
+      const expectedTodoList = new TodoList()
+      expectedTodoList.id = mockTodoListResponse.id
+      expectedTodoList.name = mockTodoListResponse.name
+      expectedTodoList.todos = mockTodoResponse.map((todo) => {
+        const result = new Todo()
+        result.id = todo.id
+        result.name = todo.name
+        result.description = todo.description
+        result.dueDate = todo.dueDate
+        result.status = todo.status;
+        result.listId = todo.listId
+        return result;
+      })
+      expect(result).toEqual(expectedTodoList);
     });
+
     it('should throw not found when todo list not found', async () => {
       jest.spyOn(prismaService.todoList, 'findUnique').mockResolvedValue(null);
 

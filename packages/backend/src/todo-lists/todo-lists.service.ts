@@ -4,6 +4,7 @@ import { UpdateTodoListDto } from './dto/update-todo-list.dto';
 import { PrismaService } from '../infras/prisma/prisma.service';
 import { transformTodoList } from './todo-lists.helper';
 import { Prisma } from '@prisma/client';
+import { QueryOptions } from 'src/constants/query';
 
 @Injectable()
 export class TodoListsService {
@@ -23,11 +24,25 @@ export class TodoListsService {
     return data
   }
 
-  async findOne(id: string) {
-    const result = await this.prisma.todoList.findUnique({
-      where: { id, isDeleted: false },
-      include: { todos: true },
-    });
+  async findOne(id: string, options?: QueryOptions) {
+    this.logger.log(`findOne with options: ${JSON.stringify(options)}`);
+
+    const isSorting = options?.sortBy && options?.orderBy;
+    const [todoList, todos] = await Promise.all([
+      this.prisma.todoList.findUnique({
+        where: { id, isDeleted: false },
+      }),
+      this.prisma.todo.findMany({
+        where: { listId: id, isDeleted: false },
+        ...(isSorting && {
+          orderBy: { [options.sortBy]: options.orderBy },
+        }),
+      }),
+    ]);
+    const result = {
+      ...todoList,
+      todos,
+    };
     return transformTodoList(result);
   }
 
