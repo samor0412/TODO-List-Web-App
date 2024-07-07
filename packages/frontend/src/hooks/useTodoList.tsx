@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query'
 import * as todoListsAPI from 'api/todo-lists'
 import { TodoList } from 'domains/entities/todo-list.entities'
+import { TodoStatus } from 'domains/entities/todo.entities'
 import { useEffect, useState } from 'react'
 
 interface Props {
@@ -22,6 +23,14 @@ interface Return {
 }
 
 const DEFAULT_QUERY_OPTIONS: todoListsAPI.QueryOptions = {
+  filter: {
+    name: '',
+    statuses: [
+      TodoStatus.Completed,
+      TodoStatus.InProgress,
+      TodoStatus.NotStarted
+    ]
+  },
   sortBy: 'dueDate',
   orderBy: 'asc'
 }

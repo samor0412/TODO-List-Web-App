@@ -17,7 +17,7 @@ export const Dropdown: React.FC<Props> = ({
 
   return (
     <div
-      className="display relative"
+      className="relative"
       data-testid="dropdown"
       onClick={() => {
         setOpen(!open)

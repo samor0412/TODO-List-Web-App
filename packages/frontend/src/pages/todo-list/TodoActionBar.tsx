@@ -6,6 +6,7 @@ import TodoListContext from 'context/TodoList'
 import { Dropdown } from 'components/Dropdown'
 import { ORDER_BY_DISPLAY_MAP, TODO_FIELD_DISPLAY_MAP } from '../../constants'
 import SortingIcon from 'assets/sorting.svg?react'
+import { TodoFilterPopupContent } from './TodoFilterPopupContent'
 
 interface Props {
   todoListId: string
@@ -16,6 +17,7 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
   const { queryOptions, setQueryOptions } = useContext(TodoListContext)
   const { create } = useTodo()
   const [isCreatePopupOpen, setIsCreatePopupOpen] = React.useState(false)
+  const [isFilterPopupOpen, setIsFilterPopupOpen] = React.useState(false)
 
   return (
     <div className="my-4 flex items-center justify-between">
@@ -25,7 +27,10 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
       >
         Create Todo
       </button>
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
+        <button className="btn" onClick={() => setIsFilterPopupOpen(true)}>
+          Filter
+        </button>
         <Dropdown
           icon={
             <SortingIcon
@@ -67,6 +72,26 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
               setIsCreatePopupOpen(false)
             }}
             submitText="Create"
+            close={close}
+          />
+        </Popup>
+      )}
+      {isFilterPopupOpen && (
+        <Popup>
+          <TodoFilterPopupContent
+            title="Filter"
+            queryOptions={queryOptions}
+            onSubmit={async (data) => {
+              setQueryOptions({
+                ...queryOptions,
+                filter: {
+                  name: data.name,
+                  statuses: data.statuses
+                }
+              })
+              setIsFilterPopupOpen(false)
+            }}
+            submitText="Submit"
             close={close}
           />
         </Popup>

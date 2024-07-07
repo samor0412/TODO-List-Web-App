@@ -5,11 +5,23 @@ import { reactQueryWrapper } from '../../test/helpers'
 import userEvent from '@testing-library/user-event'
 import * as todoAPI from '../../api/todos'
 
+const mockUseContextReturn = {
+  refetch: vi.fn(),
+  queryOptions: {
+    sortBy: 'dueDate',
+    orderBy: 'asc',
+    filter: {
+      name: '',
+      statuses: []
+    }
+  },
+  setQueryOptions: vi.fn()
+}
 vi.mock('react', async (importOriginal) => {
   const mod = (await importOriginal()) as Record<string, unknown>
   return {
     ...mod,
-    useContext: vi.fn(() => ({ refetch: vi.fn() }))
+    useContext: vi.fn(() => mockUseContextReturn)
   }
 })
 
@@ -71,14 +83,49 @@ vi.mock('../../api/todos', async (importOriginal) => {
 })
 
 describe('TodoListPage', () => {
-  it('should render TodoListPage with data when query is successful', async () => {
-    render(reactQueryWrapper({ children: <TodoListPage /> }))
-    await waitFor(() =>
-      expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
-    )
-    expect(screen.getByText('name1'))
-    expect(screen.getByText('Completed'))
-    expect(screen.getByText('2020-07-10'))
+  describe('query', () => {
+    it('should render TodoListPage with data when query is successful', async () => {
+      render(reactQueryWrapper({ children: <TodoListPage /> }))
+      await waitFor(() =>
+        expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+      )
+      expect(screen.getByText('name1'))
+      expect(screen.getByText('Completed'))
+      expect(screen.getByText('2020-07-10'))
+    }),
+      it('should set filter when submitting in filter popup', async () => {
+        const mockSetQueryOptions = vi.fn()
+        vi.spyOn(React, 'useContext').mockReturnValue({
+          ...mockUseContextReturn,
+          setQueryOptions: mockSetQueryOptions
+        })
+
+        render(reactQueryWrapper({ children: <TodoListPage /> }))
+        act(() => {
+          screen.getByRole('button', { name: 'Filter' }).click()
+        })
+        const form = screen.getByRole('form')
+        userEvent.type(within(form).getByRole('textbox'), 'testName')
+
+        // disable NotStarted
+        userEvent.click(
+          screen.getByRole('checkbox', {
+            name: /not started/i
+          })
+        )
+        userEvent.click(within(form).getByRole('button', { name: 'Submit' }))
+
+        await waitFor(() =>
+          expect(mockSetQueryOptions).toHaveBeenCalledWith({
+            filter: {
+              name: '',
+              statuses: ['Completed', 'InProgress']
+            },
+            orderBy: 'asc',
+            sortBy: 'dueDate'
+          })
+        )
+      })
   })
   describe('create', () => {
     it('should show create todo popup when clicking create', async () => {
@@ -118,6 +165,7 @@ describe('TodoListPage', () => {
       const spyUpdate = vi.spyOn(todoAPI, 'update')
       const mockRefetchTodoLists = vi.fn()
       vi.spyOn(React, 'useContext').mockReturnValue({
+        ...mockUseContextReturn,
         refetch: mockRefetchTodoLists
       })
 
@@ -160,6 +208,7 @@ describe('TodoListPage', () => {
     it('should send delete request when clicking delete', async () => {
       const mockRefetchTodoLists = vi.fn()
       vi.spyOn(React, 'useContext').mockReturnValue({
+        ...mockUseContextReturn,
         refetch: mockRefetchTodoLists
       })
       const spyDelete = vi.spyOn(todoAPI, 'remove').mockResolvedValue()
