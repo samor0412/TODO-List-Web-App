@@ -29,7 +29,7 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
               <th>{todo.name}</th>
               <th>{dayjs(todo.dueDate).format('YYYY-MM-DD')}</th>
               <th>{todo.status}</th>
-              <th>
+              <th className='flex justify-end'>
                 <button className="btn" onClick={() => setTodo(todo)}>
                   Detail
                 </button>

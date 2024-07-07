@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
       <h2 className="my-24 text-4xl font-bold">Todo Webapp</h2>
       <input
         placeholder={TODO_LIST_DEFAULT_NAME}
-        className="input-bordered my-9 w-full max-w-60 px-3 py-4"
+        className="input input-bordered my-9 w-full max-w-60 px-3 py-4"
         onChange={(e) => {
           setName(e.target.value)
         }}

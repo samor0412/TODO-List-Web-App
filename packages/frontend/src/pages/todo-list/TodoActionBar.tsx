@@ -22,7 +22,7 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
   return (
     <div className="my-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center md:gap-0">
       <button
-        className="btn btn-primary btn-sm"
+        className="btn btn-primary"
         onClick={() => setIsCreatePopupOpen(true)}
       >
         Create Todo
