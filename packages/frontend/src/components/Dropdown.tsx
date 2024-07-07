@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ArrowDown from 'assets/arrow-down.svg?react'
 
 interface Props {
   value: string
@@ -10,7 +11,8 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
 
   return (
     <div
-      data-testid='dropdown'
+      className="relative display"
+      data-testid="dropdown"
       onClick={() => {
         setOpen(!open)
       }}
@@ -32,6 +34,11 @@ export const Dropdown: React.FC<Props> = ({ value, options, onClick }) => {
           ))}
         </ul>
       )}
+      <ArrowDown
+        className="fill-neutral-content absolute top-1/2 transform -translate-y-1/2 right-4"
+        width="20px"
+        height="20px"
+      />
     </div>
   )
 }
