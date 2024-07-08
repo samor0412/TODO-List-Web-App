@@ -45,3 +45,26 @@ jobs:
 
       - name: Test ${{ matrix.apps }}
         run: npm run -w ${{ matrix.apps }} test
+
+  build:
+    name: "[${{ matrix.apps }}] Build"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        apps: ["frontend", "backend"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci -w ${{ matrix.apps }}
+
+      - name: Generate Prisma Client
+        if: matrix.apps == 'backend'
+        run: |
+          npm run generate:prisma -w ${{ matrix.apps }}
+
+      - name: Build ${{ matrix.apps }}
+        run: npm run -w ${{ matrix.apps }} build
