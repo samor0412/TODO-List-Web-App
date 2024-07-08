@@ -11,22 +11,15 @@ interface Return {
 }
 
 const useTodo = (): Return => {
-  const { refetch: refetchTodoList } = useContext(TodoListContext)
   const { mutateAsync: create } = useMutation({
     mutationFn: async (data: Omit<Todo, 'id'>) => {
       await todosAPI.create(data)
-      if (refetchTodoList) {
-        await refetchTodoList()
-      }
     }
   })
 
   const { mutateAsync: update } = useMutation({
     mutationFn: async (data: Todo) => {
       const result = await todosAPI.update(data)
-      if (refetchTodoList) {
-        await refetchTodoList()
-      }
       return result
     }
   })
@@ -34,9 +27,6 @@ const useTodo = (): Return => {
   const { mutateAsync: remove } = useMutation({
     mutationFn: async (id: string) => {
       await todosAPI.remove(id)
-      if (refetchTodoList) {
-        await refetchTodoList()
-      }
     }
   })
 

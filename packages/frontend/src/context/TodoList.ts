@@ -5,9 +5,6 @@ import * as todoListsAPI from 'api/todo-lists'
 import { TodoStatus } from 'domains/entities/todo.entities'
 
 interface TodoListContext {
-  refetch?: (
-    options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<TodoList, Error>>
   queryOptions: todoListsAPI.QueryOptions
   setQueryOptions: (queryOptions: todoListsAPI.QueryOptions) => void
 }

@@ -6,7 +6,6 @@ import userEvent from '@testing-library/user-event'
 import * as todoAPI from '../../api/todos'
 
 const mockUseContextReturn = {
-  refetch: vi.fn(),
   queryOptions: {
     sortBy: 'dueDate',
     orderBy: 'asc',
@@ -163,11 +162,6 @@ describe('TodoListPage', () => {
     })
     it('should send request when clicking update', async () => {
       const spyUpdate = vi.spyOn(todoAPI, 'update')
-      const mockRefetchTodoLists = vi.fn()
-      vi.spyOn(React, 'useContext').mockReturnValue({
-        ...mockUseContextReturn,
-        refetch: mockRefetchTodoLists
-      })
 
       render(reactQueryWrapper({ children: <TodoListPage /> }))
       await waitFor(() =>
@@ -203,14 +197,8 @@ describe('TodoListPage', () => {
           status: 'Completed'
         })
       )
-      expect(mockRefetchTodoLists).toHaveBeenCalled()
     })
     it('should send delete request when clicking delete', async () => {
-      const mockRefetchTodoLists = vi.fn()
-      vi.spyOn(React, 'useContext').mockReturnValue({
-        ...mockUseContextReturn,
-        refetch: mockRefetchTodoLists
-      })
       const spyDelete = vi.spyOn(todoAPI, 'remove').mockResolvedValue()
 
       render(reactQueryWrapper({ children: <TodoListPage /> }))
@@ -227,7 +215,6 @@ describe('TodoListPage', () => {
       )
       screen.getByRole('button', { name: 'Delete' }).click()
       await waitFor(() => expect(spyDelete).toHaveBeenCalledWith('id1'))
-      expect(mockRefetchTodoLists).toHaveBeenCalled()
     })
   })
 })
