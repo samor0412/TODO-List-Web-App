@@ -1,8 +1,4 @@
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import * as todoListsAPI from 'api/todo-lists'
 import { TodoList } from 'domains/entities/todo-list.entities'
 import { TodoStatus } from 'domains/entities/todo.entities'
