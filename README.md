@@ -25,43 +25,51 @@ The TODO Web Application is a user-friendly task management tool that allows you
 - **Real-time Collaboration**: Receive updates from others collaborator in real-time  with toast notifications, without the need of refreshing the page.
 
 ## Installation
-1. Clone the repository:
-```bash
-git clone https://github.com/samor0412/TODO-List-Web-App.git
-```
-
-2. Go to the folder
-```bash
-cd TODO-List-Web-App
-```
 
 
-##### Method 1: Docker (Recommended)
-1. Run the command
+
+
+### Method 1: Docker (Recommended)
+#### 1. Run the command
 ```bash
 docker compose up
 ```
-Open http://localhost to view the page and http://localhost:3001/openapi to view the API doc
+#### 2. After DB is up, run db migration script to init DB
+```bash
+npm install
+```
+```bash
+npm run -w backend migrate:prisma
+```
+#### 3. Open http://localhost to view the page and http://localhost:3001/openapi to view the API doc
 
 
-##### Method 2: Run in local
-1. Install Dependencies
+### Method 2: Run in local
+#### 1. Install Dependencies
 ```bash
 npm install
 ```
 
-2. Set Database URL (need to run a postgres DB yourself or using docker-compose in Method 1)
-```.env
-DATABASE_URL=postgresql://<user_name>:<password>@<host>:<port>/todo-list-web-app?schema=public
+#### 2. Run Database
+ - Method 1:  use docker to host a DB
+ ```bash
+ docker run -v ./.docker/postgres:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=todo-list-web-app postgres 
+ ```
+ - Method 2: host a DB your self
+	- Update the variable `DATABASE_URL` of `.env.development` and `.env.production` in `packages/backend`
+
+#### 3. After DB is up, run db migration script to init DB
+```bash
+npm run -w migration:prisma
 ```
 
-3. Run backend
+#### 4. Run backend
 ```bash
 npm run -w backend start:dev
 ```
 Open http://localhost:3001/openapi to view the API doc
 
-4. Run frontend
+#### 5. Run frontend
 ```bash
 npm run -w frontend dev
 ```
