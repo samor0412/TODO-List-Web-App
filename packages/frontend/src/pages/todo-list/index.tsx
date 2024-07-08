@@ -5,6 +5,7 @@ import { ToDoTable } from './TodoTable'
 import { TodoActionBar } from './TodoActionBar'
 import useTodoList from 'hooks/useTodoList'
 import TodoListsContext from 'context/TodoList'
+import useTodoListSocket from 'hooks/useTodoListSocket'
 
 export const TodoListPage: React.FC = () => {
   const { todoListId: id } = useParams<{ todoListId: string }>()
@@ -12,6 +13,7 @@ export const TodoListPage: React.FC = () => {
     useTodoList({
       id: id || ''
     })
+  useTodoListSocket(id || '')
   const onClickCreate = () => {}
 
   return (
