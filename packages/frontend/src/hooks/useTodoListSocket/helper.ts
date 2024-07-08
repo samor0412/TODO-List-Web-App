@@ -1,11 +1,13 @@
 import { QueryClient } from '@tanstack/react-query'
 import { TodoList } from 'domains/entities/todo-list.entities'
 import { Todo } from 'domains/entities/todo.entities'
+import { toast } from 'react-toastify'
 
 export const onTodoUpdated = (queryClient: QueryClient) => (todo: Todo) => {
   queryClient.setQueryData(
     ['todoList', todo.listId],
     (oldTodoList: TodoList) => {
+      toast.info('📝  Todo updated')
       if (oldTodoList) {
         const newTodos = oldTodoList.todos.map((t) => {
           if (t.id === todo.id) {
@@ -25,6 +27,7 @@ export const onTodoDeleted = (queryClient: QueryClient) => (todo: Todo) => {
   queryClient.setQueryData(
     ['todoList', todo.listId],
     (oldTodoList: TodoList) => {
+      toast.success('🧹  Todo Deleted')
       if (oldTodoList) {
         const newTodoList = {
           ...oldTodoList,
@@ -41,6 +44,7 @@ export const onTodoCreated = (queryClient: QueryClient) => (todo: Todo) => {
   queryClient.setQueryData(
     ['todoList', todo.listId],
     (oldTodoList: TodoList) => {
+      toast.success('🎉  Todo Created')
       if (oldTodoList) {
         const newTodoList = {
           ...oldTodoList,
