@@ -13,6 +13,12 @@ export const TODO_FIELD_DISPLAY_MAP = {
   status: 'Status'
 }
 
+export const SORT_BY_DISPLAY_MAP = {
+  name: 'Name',
+  dueDate: 'Due Date',
+  status: 'Status'
+}
+
 export const ORDER_BY_DISPLAY_MAP = {
   asc: 'Ascending',
   desc: 'Descending'

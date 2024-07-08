@@ -4,7 +4,7 @@ import useTodo from 'hooks/useTodo'
 import { Popup } from 'components/Popup'
 import TodoListContext from 'context/TodoList'
 import { Dropdown } from 'components/Dropdown'
-import { ORDER_BY_DISPLAY_MAP, TODO_FIELD_DISPLAY_MAP } from '../../constants'
+import { ORDER_BY_DISPLAY_MAP, SORT_BY_DISPLAY_MAP } from '../../constants'
 import SortingIcon from 'assets/sorting.svg?react'
 import { TodoFilterPopupContent } from './TodoFilterPopupContent'
 
@@ -39,7 +39,7 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
               className="fill-neutral-content"
             />
           }
-          options={TODO_FIELD_DISPLAY_MAP}
+          options={SORT_BY_DISPLAY_MAP}
           value={queryOptions.sortBy}
           onClick={(value) =>
             setQueryOptions({ ...queryOptions, sortBy: value })
