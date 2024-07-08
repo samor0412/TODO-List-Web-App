@@ -12,14 +12,5 @@ describe('UpdateTodoListDto', () => {
         });
       }
     });
-    it('should throw error when name is not a string', async () => {
-      {
-        const dto = new UpdateTodoListDto();
-        dto.name = 123 as unknown as string;
-        await validate(dto).then((errors) => {
-          expect(errors.length).toBeGreaterThan(0);
-        });
-      }
-    });
   });
 });

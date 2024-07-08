@@ -3,7 +3,7 @@ import {
   TodoList as PrismaTodoList,
   TodoStatus as PrismaTodoStatus,
 } from '@prisma/client';
-import { TodoStatus } from '../todos/entities/todo.entity';
+import { Todo, TodoStatus } from '../todos/entities/todo.entity';
 import {
   prepareGetTodoListPrismaOptions,
   transformTodoList,
@@ -28,20 +28,19 @@ describe('transformTodoList', () => {
       ],
       isDeleted: false,
     };
-    const mockTodoList: TodoList = {
-      id: 'test-list-id',
-      name: 'test-name',
-      todos: [
-        {
-          id: 'test-todo-id',
-          name: 'test-todo',
-          description: 'test-description',
-          dueDate: new Date(),
-          status: TodoStatus.Completed,
-          listId: 'test-list-id',
-        },
-      ],
-    };
+    const mockTodoList = new TodoList();
+    mockTodoList.id = 'test-list-id';
+    mockTodoList.name = 'test-name';
+
+    const mockTodo = new Todo();
+    mockTodo.id = 'test-todo-id';
+    mockTodo.name = 'test-todo';
+    mockTodo.description = 'test-description';
+    mockTodo.dueDate = new Date();
+    mockTodo.status = TodoStatus.Completed;
+    mockTodo.listId = 'test-list-id';
+    mockTodoList.todos = [mockTodo];
+
     const result = transformTodoList(mockPrismaTodoList);
     expect(result).toEqual(mockTodoList);
   });
