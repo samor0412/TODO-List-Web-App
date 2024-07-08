@@ -17,9 +17,6 @@ interface Return {
   isLoading: boolean
   queryOptions: todoListsAPI.QueryOptions
   setQueryOptions: (queryOptions: todoListsAPI.QueryOptions) => void
-  refetch: (
-    options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<TodoList, Error>>
 }
 
 const DEFAULT_QUERY_OPTIONS: todoListsAPI.QueryOptions = {
@@ -57,7 +54,7 @@ const useTodoList = ({ id }: Props): Return => {
     _setQueryOptions(queryOptions)
   }
 
-  return { todoList, isLoading, refetch, queryOptions, setQueryOptions }
+  return { todoList, isLoading, queryOptions, setQueryOptions }
 }
 
 export default useTodoList

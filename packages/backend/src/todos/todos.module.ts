@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { TodosController } from './todos.controller';
 import { PrismaService } from '../infras/prisma/prisma.service';
-import { WebsocketsGateway } from 'src/websocket/websocket.gateway';
+import { WebsocketsGateway } from '../websocket/websocket.gateway';
 
 @Module({
   controllers: [TodosController],

@@ -9,7 +9,7 @@ import useTodoListSocket from 'hooks/useTodoListSocket'
 
 export const TodoListPage: React.FC = () => {
   const { todoListId: id } = useParams<{ todoListId: string }>()
-  const { todoList, isLoading, refetch, queryOptions, setQueryOptions } =
+  const { todoList, isLoading, queryOptions, setQueryOptions } =
     useTodoList({
       id: id || ''
     })
@@ -18,7 +18,7 @@ export const TodoListPage: React.FC = () => {
 
   return (
     <TodoListsContext.Provider
-      value={{ refetch, queryOptions, setQueryOptions }}
+      value={{ queryOptions, setQueryOptions }}
     >
       <Header title="Todo List Page" backToHome />
       <div className="flex w-full flex-col items-start px-6 pt-6">

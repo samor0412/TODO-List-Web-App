@@ -11,7 +11,9 @@ const HomePage: React.FC = () => {
   const { mutate } = useMutation({
     mutationFn: async () => {
       const todolist = await TodoListsAPI.create(name || TODO_LIST_DEFAULT_NAME)
-      navigate(`todo-lists/${todolist.id}`)
+      if (todolist) {
+        navigate(`todo-lists/${todolist.id}`)
+      }
     }
   })
 

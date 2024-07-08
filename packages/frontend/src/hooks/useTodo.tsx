@@ -4,7 +4,7 @@ import { Todo } from 'domains/entities/todo.entities'
 
 interface Return {
   create: (data: Omit<Todo, 'id'>) => Promise<void>
-  update: (data: Todo) => Promise<Todo>
+  update: (data: Todo) => Promise<Todo | undefined>
   remove: (id: string) => Promise<void>
 }
 
