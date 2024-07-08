@@ -3,7 +3,7 @@ import { onTodoDeleted, onTodoUpdated, onTodoCreated } from './helper'
 import { Todo, TodoStatus } from 'domains/entities/todo.entities'
 import { TodoList } from 'domains/entities/todo-list.entities'
 
-vi.mock('react-toasify');
+vi.mock('react-toasify')
 
 describe('onTodoUpdated', () => {
   it('should setQueryData with new todo', () => {
