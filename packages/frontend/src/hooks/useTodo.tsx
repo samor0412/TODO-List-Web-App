@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import * as todosAPI from 'api/todos'
-import TodoListContext from 'context/TodoList'
 import { Todo } from 'domains/entities/todo.entities'
-import { useContext } from 'react'
 
 interface Return {
   create: (data: Omit<Todo, 'id'>) => Promise<void>

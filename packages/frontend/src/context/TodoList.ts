@@ -1,5 +1,3 @@
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
-import { TodoList } from 'domains/entities/todo-list.entities'
 import { createContext } from 'react'
 import * as todoListsAPI from 'api/todo-lists'
 import { TodoStatus } from 'domains/entities/todo.entities'
