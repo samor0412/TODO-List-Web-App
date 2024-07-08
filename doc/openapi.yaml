@@ -1,0 +1,314 @@
+openapi: 3.0.0
+info:
+  title: Todo API
+  description: The Todo API description
+  contact: {}
+  version: "1.0"
+servers:
+- url: /
+paths:
+  /todo-lists:
+    post:
+      tags:
+      - Todo Lists
+      summary: Create a new todo list
+      operationId: TodoListsController_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTodoListDto'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoList'
+        "400":
+          description: Bad Request.
+          content:
+            application/json:
+              example:
+                message:
+                - name should not be empty
+                error: Bad Request
+                statusCode: 400
+  /todo-lists/{id}:
+    get:
+      tags:
+      - Todo Lists
+      summary: Get a todo list by id
+      operationId: TodoListsController_findOne
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoList'
+        "400":
+          description: Bad Request.
+          content:
+            application/json:
+              example:
+                message:
+                - name should not be empty
+                error: Bad Request
+                statusCode: 400
+        "404":
+          description: Not found.
+    delete:
+      tags:
+      - Todo Lists
+      summary: Delete a todo list by id
+      operationId: TodoListsController_remove
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: ""
+    patch:
+      tags:
+      - Todo Lists
+      summary: Patch a todo list by id and its todos
+      operationId: TodoListsController_update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodoListDto'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoList'
+        "400":
+          description: Bad Request.
+          content:
+            application/json:
+              example:
+                message:
+                - name should not be empty
+                error: Bad Request
+                statusCode: 400
+        "404":
+          description: Not found.
+  /todos:
+    post:
+      tags:
+      - Todo
+      summary: Create a new todo
+      operationId: TodosController_create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTodoDto'
+        required: true
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message:
+                - dueDate must be a valid ISO 8601 date string
+                error: Bad Request
+                statusCode: 400
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              example:
+                statusCode: 409
+                message: Todo list does not exist
+  /todos/{id}:
+    delete:
+      tags:
+      - Todo
+      summary: Delete a todo
+      operationId: TodosController_remove
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: ""
+    patch:
+      tags:
+      - Todo
+      summary: Update a todo
+      operationId: TodosController_update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodoDto'
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message:
+                - dueDate must be a valid ISO 8601 date string
+                error: Bad Request
+                statusCode: 400
+        "404":
+          description: Bad Request
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              example:
+                statusCode: 409
+                message: Todo list does not exist
+components:
+  schemas:
+    CreateTodoListDto:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+    Todo:
+      required:
+      - description
+      - dueDate
+      - id
+      - listId
+      - name
+      - status
+      type: object
+      properties:
+        id:
+          type: string
+          example: clyd36zpo0001hdmnvxwjmcxp
+        name:
+          type: string
+        description:
+          type: string
+        dueDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - NotStarted
+          - InProgress
+          - Completed
+        listId:
+          type: string
+          example: clyacqf260000mydnmdyp3jt0
+    TodoList:
+      required:
+      - id
+      - name
+      - todos
+      type: object
+      properties:
+        id:
+          type: string
+          example: clyd36zpo0001hdmnvxwjmcxp
+        name:
+          type: string
+        todos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Todo'
+    UpdateTodoListDto:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+    CreateTodoDto:
+      required:
+      - description
+      - dueDate
+      - listId
+      - name
+      - status
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        dueDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - NotStarted
+          - InProgress
+          - Completed
+        listId:
+          type: string
+          example: clyacqf260000mydnmdyp3jt0
+    UpdateTodoDto:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: clyd36zpo0001hdmnvxwjmcxp
