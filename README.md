@@ -60,16 +60,21 @@ npm install
 
 #### 3. After DB is up, run db migration script to init DB
 ```bash
-npm run -w migration:prisma
+npm run -w backend migrate:prisma
 ```
 
-#### 4. Run backend
+#### 4. Generate Prisma Client for backend
+```bash
+npm run -w backend generate:prisma
+```
+
+#### 5. Run backend
 ```bash
 npm run -w backend start:dev
 ```
 Open http://localhost:3001/openapi to view the API doc
 
-#### 5. Run frontend
+#### 6. Run frontend
 ```bash
 npm run -w frontend dev
 ```
