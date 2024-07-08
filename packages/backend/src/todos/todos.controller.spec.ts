@@ -6,19 +6,27 @@ import { TodoStatus } from './entities/todo.entity';
 import * as dayjs from 'dayjs';
 import { Prisma } from '@prisma/client';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { WebsocketsGateway } from '../websocket/websocket.gateway';
+import { WEBSOCKET_EVENT } from '../websocket/websocket.constant';
 
 describe('TodosController', () => {
   let controller: TodosController;
   let prismaService: PrismaService;
+  let webSocketGateway: WebsocketsGateway;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [TodosController],
-      providers: [TodosService, PrismaService],
+      providers: [TodosService, PrismaService, WebsocketsGateway],
     }).compile();
 
     controller = module.get<TodosController>(TodosController);
     prismaService = module.get<PrismaService>(PrismaService);
+    webSocketGateway = module.get<WebsocketsGateway>(WebsocketsGateway);
+
+    jest
+      .spyOn(webSocketGateway, 'emitByTodoListSubscribers')
+      .mockImplementation(jest.fn());
   });
 
   it('should be defined', () => {
@@ -98,6 +106,13 @@ describe('TodosController', () => {
       });
 
       const result = await controller.update('test-id', mockDto);
+      expect(webSocketGateway.emitByTodoListSubscribers).toHaveBeenCalledWith(
+        mockResponse.listId,
+        {
+          event: WEBSOCKET_EVENT.TODO_UPDATED,
+          data: mockResponse,
+        },
+      );
       expect(result).toEqual(mockResponse);
     });
     it('should throw not found when the updating todo list not found', async () => {
@@ -142,21 +157,32 @@ describe('TodosController', () => {
 
   describe('delete', () => {
     it('should delete a todo list', async () => {
+      const mockTodoId = 'test-id';
+      const mockTodoListId = 'cly7me96z000211v5mds1idcm';
+
+      const mockDeletedTodo = {
+        id: mockTodoId,
+        name: 'test-name',
+        description: 'test-description',
+        dueDate: dayjs('2020-07-10 15:00:00.000').toDate(),
+        status: TodoStatus.Completed,
+        listId: mockTodoListId,
+      };
+
       const spyDelete = jest
         .spyOn(prismaService.todo, 'update')
-        .mockResolvedValue({
-          id: 'test-id',
-          name: 'test-name',
-          description: 'test-description',
-          dueDate: dayjs('2020-07-10 15:00:00.000').toDate(),
-          status: TodoStatus.Completed,
-          listId: 'cly7me96z000211v5mds1idcm',
-          isDeleted: true,
-        });
+        .mockResolvedValue({ ...mockDeletedTodo, isDeleted: true });
 
-      await controller.remove('test-id');
+      await controller.remove(mockTodoId);
+      expect(webSocketGateway.emitByTodoListSubscribers).toHaveBeenCalledWith(
+        mockTodoListId,
+        {
+          event: WEBSOCKET_EVENT.TODO_DELETED,
+          data: mockDeletedTodo,
+        },
+      );
       expect(spyDelete).toHaveBeenCalledWith({
-        where: { id: 'test-id' },
+        where: { id: mockTodoId },
         data: {
           isDeleted: true,
         },
