@@ -51,7 +51,7 @@ export const TodoPopupContent: React.FC<Props> = ({
       <h1 className="mb-6">{title}</h1>
       <form
         className={classnames([
-          'flex flex-col gap-2',
+          'flex min-h-0 flex-col gap-2 overflow-y-auto overflow-x-hidden',
           '[&>div]:flex [&>div]:flex-col [&>div]:gap-2',
           '[&_p]:text-sm [&_p]:text-warning'
         ])}
@@ -91,6 +91,7 @@ export const TodoPopupContent: React.FC<Props> = ({
                   options={TODO_STATUS_DISPLAY_MAP}
                   value={field.value}
                   onClick={field.onChange}
+                  position="top"
                 />
                 <p>{errors.status?.message}</p>
               </>
