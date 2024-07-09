@@ -38,9 +38,9 @@ export const TodoPopupContent: React.FC<Props> = ({
     formState: { errors }
   } = useForm<Inputs>({
     defaultValues: {
-      name: todo?.name,
-      description: todo?.description,
-      dueDate: todo?.dueDate,
+      name: todo?.name || 'New Todo',
+      description: todo?.description || 'New Description',
+      dueDate: todo?.dueDate || new Date(),
       status: todo?.status || TodoStatus.NotStarted
     },
     resolver: yupResolver(todoSchema)
