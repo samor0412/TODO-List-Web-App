@@ -2,6 +2,12 @@
 
 A simple web-based task management application, built using modern web technologies.
 
+<img height="200px"  alt="homepage" src="https://github.com/samor0412/TODO-List-Web-App/assets/39899550/50d3b95a-2aef-4280-8556-90e334f3f003">
+<img height="200px"  alt="create todo page" src="https://github.com/samor0412/TODO-List-Web-App/assets/39899550/90e92ca9-71ca-4d43-ae5a-918f4006b801">
+<img width="200px"  alt="update popup" src="https://github.com/samor0412/TODO-List-Web-App/assets/39899550/1db9e019-f223-4395-89da-8de2f831f6c1">
+
+
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
@@ -92,3 +98,5 @@ Copy [openapi.yaml](https://github.com/samor0412/TODO-List-Web-App/blob/main/doc
 - React
 - NestJS
 - TailwindCSS
+- Prisma
+- Socket.io
