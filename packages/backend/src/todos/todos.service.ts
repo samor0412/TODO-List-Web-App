@@ -53,7 +53,7 @@ export class TodosService {
     let result: any;
     try {
       result = await this.prisma.todo.update({
-        where: { id },
+        where: { id, isDeleted: false },
         data: { ...updateDto, dueDate: new Date(updateDto.dueDate) },
       });
       this.logger.log(`update ${id} successfully`);
