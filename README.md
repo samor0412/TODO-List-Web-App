@@ -14,6 +14,7 @@ A simple web-based task management application, built using modern web technolog
 - [Installation](#installation)
 - [API Documentation](#api-documentation)
 - [Built with](#built-with)
+- [CI](#ci)
 
 ## Introduction
 
@@ -100,3 +101,9 @@ Copy [openapi.yaml](https://github.com/samor0412/TODO-List-Web-App/blob/main/doc
 - TailwindCSS
 - Prisma
 - Socket.io
+
+## CI
+#### Pull Request to `main` branch
+1. Test
+2. Lint
+3. Build
