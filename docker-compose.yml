@@ -1,13 +1,17 @@
-version: '2'
-
 services:
   frontend:
+    depends_on:
+      backend:
+        condition: service_started
     build:
       context: .
       dockerfile: ./packages/frontend/Dockerfile
     ports:
      - 80:80
   backend:
+    depends_on:
+      postgres:
+        condition: service_healthy
     build:
       context: .
       dockerfile: ./packages/backend/Dockerfile
@@ -17,10 +21,17 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/todo-list-web-app?schema=public
       - PORT=3000
   postgres:
-    image: postgres
+    image: postgres:16.3
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d todo-list-web-app"]
+      interval: 2s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     ports:
      - 5432:5432
     environment:
+      - PGUSER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=todo-list-web-app
     volumes:
