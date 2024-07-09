@@ -53,7 +53,7 @@ npm install
 #### 2. Run Database
  - Method 1:  use docker to host a DB
  ```bash
- docker run -v ./.docker/postgres:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=todo-list-web-app postgres 
+ docker run -v ./.docker/postgres:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=todo-list-web-app postgres:16.3 
  ```
  - Method 2: host a DB your self
 	- Update the variable `DATABASE_URL` of `.env.development` and `.env.production` in `packages/backend`
