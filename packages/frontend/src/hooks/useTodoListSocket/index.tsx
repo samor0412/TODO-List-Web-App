@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client'
 import { onTodoCreated, onTodoDeleted, onTodoUpdated } from './helper'
 import { queryClient } from 'App'
 import { WEBSOCKET_EVENT } from './constants'
+import { toast } from 'react-toastify'
 
 const useTodoListSocket = (id: string) => {
   const [socket, setSocket] = useState<Socket | null>(null)
@@ -45,6 +46,7 @@ const useTodoListSocket = (id: string) => {
 
   function onDisconnect() {
     console.debug('disconnected')
+    toast.error('Websocket disconnected', { autoClose: 3000 })
     setIsConnected(false)
   }
   return { isConnected }
