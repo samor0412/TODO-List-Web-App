@@ -12,6 +12,7 @@ import { TodoList } from './entities/todo-list.entity';
 
 describe('transformTodoList', () => {
   it('should transform a prisma todo list to a todo list', () => {
+    const mockDueDate = new Date();
     const mockPrismaTodoList: PrismaTodoList & { todos: PrismaTodo[] } = {
       id: 'test-list-id',
       name: 'test-name',
@@ -20,7 +21,7 @@ describe('transformTodoList', () => {
           id: 'test-todo-id',
           name: 'test-todo',
           description: 'test-description',
-          dueDate: new Date(),
+          dueDate: mockDueDate,
           status: TodoStatus.Completed,
           listId: 'test-list-id',
           isDeleted: false,
@@ -36,7 +37,7 @@ describe('transformTodoList', () => {
     mockTodo.id = 'test-todo-id';
     mockTodo.name = 'test-todo';
     mockTodo.description = 'test-description';
-    mockTodo.dueDate = new Date();
+    mockTodo.dueDate = mockDueDate;
     mockTodo.status = TodoStatus.Completed;
     mockTodo.listId = 'test-list-id';
     mockTodoList.todos = [mockTodo];
