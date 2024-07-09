@@ -1,17 +1,20 @@
 import { useState } from 'react'
 import ArrowDown from 'assets/arrow-down.svg?react'
+import classNames from 'classnames'
 
 interface Props {
   icon?: React.ReactNode
   value: string
   onClick: (value: string) => void
   options: Record<string, string>
+  position?: 'bottom' | 'top'
 }
 export const Dropdown: React.FC<Props> = ({
   icon,
   value,
   options,
-  onClick
+  onClick,
+  position = 'bottom'
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -33,7 +36,13 @@ export const Dropdown: React.FC<Props> = ({
         />
       </summary>
       {open && (
-        <ul className="menu dropdown-content dropdown-hover absolute z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow">
+        <ul
+          className={classNames({
+            'menu dropdown-content dropdown-hover absolute z-[1] m-1 w-52 rounded-md bg-base-100 p-2 shadow':
+              true,
+            'bottom-full origin-bottom': position === 'top'
+          })}
+        >
           {Object.entries(options).map(([value, display]) => (
             <li
               className="cursor-pointer py-2 pl-2"
