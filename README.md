@@ -13,6 +13,7 @@ A simple web-based task management application, built using modern web technolog
 - [Features](#features)
 - [Installation](#installation)
 - [API Documentation](#api-documentation)
+- [Architecture Diagram](#architecture-diagram)
 - [Built with](#built-with)
 - [CI](#ci)
 
@@ -94,6 +95,10 @@ Run the backend server, access `http://localhost:3000/openapi` (for docker)  and
 
 ##### Method 2
 Copy [openapi.yaml](https://github.com/samor0412/TODO-List-Web-App/blob/main/doc/openapi.yaml "openapi.yaml") and paste to [Swagger Editor](https://editor.swagger.io/ "Swagger Editor")
+
+## Architecture Diagram
+<img width="673" alt="image" src="https://github.com/user-attachments/assets/42a7ddc6-dd22-4344-91a5-8d73365f11ed">
+
 
 ## Built with
 - React
