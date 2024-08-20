@@ -25,7 +25,7 @@ export const TodoActionBar: React.FC<Props> = ({ todoListId }) => {
         className="btn btn-primary"
         onClick={() => setIsCreatePopupOpen(true)}
       >
-        Create Todo
+        New Item
       </button>
       <div className="flex flex-wrap items-center gap-3">
         <button className="btn" onClick={() => setIsFilterPopupOpen(true)}>

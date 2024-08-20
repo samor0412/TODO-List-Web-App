@@ -58,7 +58,7 @@ export const TodoPopupContent: React.FC<Props> = ({
         onSubmit={handleSubmit(onSubmit)}
       >
         <div>
-          <label>Name</label>
+          <label>Order ID</label>
           <input className="input" {...register('name')} />
           <p>{errors.name?.message}</p>
         </div>
@@ -98,6 +98,11 @@ export const TodoPopupContent: React.FC<Props> = ({
             )}
           />
         </div>
+        <div>
+          <label>Price</label>
+          <input className="input" value="$237" />
+        </div>
+        <div></div>
         <input
           type="submit"
           className="btn btn-primary mt-2"

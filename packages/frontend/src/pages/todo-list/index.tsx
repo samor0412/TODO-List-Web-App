@@ -17,7 +17,7 @@ export const TodoListPage: React.FC = () => {
 
   return (
     <TodoListsContext.Provider value={{ queryOptions, setQueryOptions }}>
-      <Header title="Todo List Page" backToHome />
+      <Header title="Order List" backToHome />
       <div className="flex w-full flex-col items-start px-6 pt-6">
         {isLoading ? (
           <span
@@ -26,7 +26,7 @@ export const TodoListPage: React.FC = () => {
           ></span>
         ) : (
           <div className="w-full">
-            <h1 className="text-3xl">{todoList?.name}</h1>
+            <h1 className="text-3xl">{}</h1>
             <TodoActionBar
               todoListId={todoList?.id || ''}
               onClickCreate={onClickCreate}

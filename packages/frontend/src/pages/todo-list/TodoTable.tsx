@@ -9,6 +9,8 @@ interface Props {
   todos: Todo[]
 }
 
+const NAME_LIST = ['Yeung L.', "David J.", "John O.", "Cheryl T."]
+const PRICE_LIST = ['$237', "$146", "$651", "$645"]
 export const ToDoTable: React.FC<Props> = ({ todos }) => {
   const [todo, setTodo] = useState<Todo>()
   const { update, remove } = useTodo()
@@ -17,18 +19,23 @@ export const ToDoTable: React.FC<Props> = ({ todos }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Order ID</th>
             <th>Due Date</th>
             <th>Status</th>
+            <th>Customer</th>
+            <th>Total($)</th>
+            <th className="flex justify-end mr-4">Action</th>
           </tr>
         </thead>
 
         <tbody>
-          {todos.map((todo) => (
+          {todos.map((todo, key) => (
             <tr key={todo.id}>
               <th>{todo.name}</th>
               <th>{dayjs(todo.dueDate).format('YYYY-MM-DD')}</th>
               <th>{todo.status}</th>
+              <th>{NAME_LIST[key] || 'Yeung L.'}</th>
+              <th>{PRICE_LIST[key] || "$437"}</th>
               <th className="flex justify-end">
                 <button className="btn" onClick={() => setTodo(todo)}>
                   Detail

@@ -20,6 +20,9 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/todo-list-web-app?schema=public
       - PORT=3000
+  netshoot:
+    image: nicolaka/netshoot
+    command: ["sleep", "8000000"]
   postgres:
     image: postgres:16.3
     healthcheck:
